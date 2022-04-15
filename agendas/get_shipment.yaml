@@ -1,0 +1,74 @@
+name: get_shipment
+states:
+  - name: start_state
+    description: ask if the item can be shipped.
+  - name: cannot_ship
+    description: the item can not be shipped.
+  - name: can_ship
+    description: the item can be shipped.
+  - name: give_up
+    description: we ask enough
+start_state_name: start_state
+terminus_names:
+  - can_ship
+  - give_up
+transition_triggers:
+  - name: ship
+    description: ''
+  - name: cant_ship
+    description: ''
+kickoff_triggers:
+  - name: shipment
+    description: ''
+transitions:
+  start_state:
+    ship: can_ship
+    cant_ship: cannot_ship
+  cannot_ship:
+    ship: can_ship
+    cant_ship: give_up
+  can_ship: {}
+  give_up: {}
+actions:
+  - name: ask_shipment
+    text: Could you deliver it? I am willing to pay the shipping fee.
+    exclusive_flag: true
+    allowed_repeats: 1
+  - name: ask_shipment_stall
+    text: You did not answer my question whether or not this item could be delivered? If so, please let me know the shipping fee.
+    exclusive_flag: true
+    allowed_repeats: 1
+  - name: say_thank
+    text: Thanks!
+    exclusive_flag: true
+    allowed_repeats: 1
+  - name: insist_shipment
+    text: Please, I want it to be delivered.
+    exclusive_flag: true
+    allowed_repeats: 1
+  - name: insist_shipmemt_stall
+    text: You have not responded. Could this item be delivered?
+    exclusive_flag: true
+    allowed_repeats: 1
+action_map:
+  start_state:
+    - ask_shipment
+  cannot_ship:
+    - insist_shipment
+  can_ship:
+    - say_thank
+  give_up: []
+stall_action_map:
+  start_state:
+    - ask_shipment_stall
+  cannot_ship:
+    - insist_shipmemt_stall
+  can_ship: []
+  give_up: []
+policy:
+  reuse: false
+  max_transitions: 5
+  absolute_accept_thresh: 0.6
+  min_accept_thresh_w_differential: 0.2
+  accept_thresh_differential: 0.1
+  kickoff_thresh: 1

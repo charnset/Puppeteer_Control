@@ -99,4 +99,4 @@ policy:
   absolute_accept_thresh: 0.6
   min_accept_thresh_w_differential: 0.2
   accept_thresh_differential: 0.1
-  kickoff_thresh: 1
+  kickoff_thresh: 0.8

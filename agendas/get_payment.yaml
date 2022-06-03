@@ -4,8 +4,6 @@ states:
     description: ask Venmo; PayPal, Zelle
   - name: have_payment
     description: They gave us a choice of payment. Now it is time to ask for account information
-  - name: try_signup
-    description: they don't use our suggested payment method but they want to try.
   - name: got_account
     description: we have the account
 start_state_name: payment
@@ -14,17 +12,11 @@ terminus_names:
 transition_triggers:
   - name: yes_payment
     description: ''
-  - name: no_but_try_payment
-    description: ''
   - name: no_but_other_payment
     description: ''
   - name: account
     description: ''
   - name: no_payment
-    description: ''
-  - name: signup_success
-    description: ''
-  - name: signup_fail
     description: ''
 kickoff_triggers:
   - name: payment
@@ -32,22 +24,13 @@ kickoff_triggers:
 transitions:
   payment:
     yes_payment: have_payment
-    no_but_try_payment: try_signup
     no_but_other_payment: have_payment
     account: got_account
     no_payment: payment
   have_payment:
     account: got_account
-  try_signup:
-    signup_success: have_payment
-    account: got_account
-    signup_fail: payment
   got_account: {}
 actions:
-  - name: ask_payment
-    text: Would PAYMENT work for you?
-    exclusive_flag: true
-    allowed_repeats: 3
   - name: ask_account
     text: Great! What is your account?
     exclusive_flag: true
@@ -56,23 +39,30 @@ actions:
     text: Thanks! I will send you the money.
     exclusive_flag: true
     allowed_repeats: 1
-  - name: provide_signup_info
-    text: Please refer to this link SIGNUP_INFO and let me know once your account is created.
+  - name: ask_venmo
+    text: I have Venmo. Do you mind sending me the money through this channel?
+    exclusive_flag: true
+    allowed_repeats: 1
+  - name: ask_paypal
+    text: Do you use PayPal?
+    exclusive_flag: true
+    allowed_repeats: 1
+  - name: ask_zelle
+    text: Would Zelle work for you?
     exclusive_flag: true
     allowed_repeats: 1
 action_map:
   payment:
-    - ask_payment
+    - ask_venmo
   have_payment:
     - ask_account
-  try_signup:
-    - provide_signup_info
   got_account:
     - say_thank
 stall_action_map:
-  payment: []
+  payment:
+    - ask_paypal
+    - ask_zelle
   have_payment: []
-  try_signup: []
   got_account: []
 policy:
   reuse: false

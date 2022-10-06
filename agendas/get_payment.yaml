@@ -40,7 +40,7 @@ actions:
     exclusive_flag: true
     allowed_repeats: 1
   - name: ask_venmo
-    text: I have Venmo. Do you mind sending me the money through this channel?
+    text: I have Venmo. Would it be ok if I send the money through this channel?
     exclusive_flag: true
     allowed_repeats: 1
   - name: ask_paypal

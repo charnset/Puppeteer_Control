@@ -78,11 +78,11 @@ transitions:
     cant_ship: cannot_ship
 actions:
   - name: ask_shipment
-    text: Could you deliver it? I am willing to pay the shipping fee.
+    text: Thank you! Could you deliver it? I am willing to pay the shipping fee.
     exclusive_flag: true
     allowed_repeats: 1
   - name: ask_shipment_stall
-    text: You did not answer my question whether or not this item could be delivered?
+    text: You did not answer my question. I want to know if you can deliver a gift card.
     exclusive_flag: true
     allowed_repeats: 1
   - name: say_thank
@@ -98,11 +98,11 @@ actions:
     exclusive_flag: true
     allowed_repeats: 1
   - name: say_ok
-    text: OK
+    text: OK.
     exclusive_flag: true
     allowed_repeats: 3
   - name: say_sure
-    text: Sure
+    text: Sure.
     exclusive_flag: true
     allowed_repeats: 3
   - name: say_reason
@@ -114,7 +114,7 @@ actions:
     exclusive_flag: true
     allowed_repeats: 1
   - name: disappoint
-    text: Ok... :(
+    text: Never mind.
     exclusive_flag: true
     allowed_repeats: 1
   - name: ignore_claim

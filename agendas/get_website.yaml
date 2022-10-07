@@ -8,8 +8,6 @@ states:
     description: They are objecting to telling us.
   - name: start_state
     description: The state we start in.
-  - name: trick_state
-    description: They gave us a text containing url-like pattern but in fact it is not a valid url.
 start_state_name: start_state
 terminus_names:
   - give_up
@@ -17,9 +15,7 @@ terminus_names:
 transition_triggers:
   - name: dont_have
     description: ''
-  - name: invalid_url
-    description: ''
-  - name: valid_url
+  - name: url
     description: ''
   - name: why
     description: ''
@@ -33,30 +29,23 @@ transitions:
   got_website: {}
   push_back:
     dont_have: give_up
-    invalid_url: trick_state
-    valid_url: got_website
+    url: got_website
   start_state:
     why: push_back
     avoid: push_back
     dont_have: give_up
-    invalid_url: trick_state
-    valid_url: got_website
-  trick_state:
-    valid_url: got_website
-    dont_have: give_up
-    why: push_back
-    avoid: push_back
+    url: got_website
 actions:
   - name: ask_website
     text: Is there a website?
     exclusive_flag: false
     allowed_repeats: 1
   - name: ask_website_politely
-    text: Could you provide me a reference website?
+    text: Also, could you provide me a reference website?
     exclusive_flag: false
     allowed_repeats: 1
   - name: push
-    text: I need your reference, i.e. webpage, for more detail before I can make contribution.
+    text: I need your reference, i.e. webpage, as an assurance before I can continue.
     exclusive_flag: false
     allowed_repeats: 1
   - name: stall_push
@@ -67,32 +56,26 @@ actions:
     text: Great! Thank you for the reference.
     exclusive_flag: false
     allowed_repeats: 1
-  - name: trick_url
-    text: The given url is not reachable. Could you double check and send it again?
-    exclusive_flag: false
-    allowed_repeats: 1
-  - name: stall_trick
-    text: Last time you sent me the unreachable site. Could you send me the new one please?
+  - name: disappoint
+    text: Never mind.
     exclusive_flag: false
     allowed_repeats: 1
 action_map:
-  give_up: []
+  give_up:
+    - disappoint
   got_website:
     - say_thanks
   push_back:
     - push
   start_state:
     - ask_website_politely
-  trick_state:
-    - trick_url
 stall_action_map:
   give_up: []
   got_website: []
   push_back:
     - stall_push
-  start_state: []
-  trick_state:
-    - stall_trick
+  start_state:
+    - ask_website
 policy:
   reuse: false
   max_transitions: 5

@@ -82,7 +82,7 @@ actions:
     exclusive_flag: true
     allowed_repeats: 1
   - name: ask_shipment_stall
-    text: You did not answer my question. I want to know if you can deliver a gift card.
+    text: This means you can deliver the gift card right?
     exclusive_flag: true
     allowed_repeats: 1
   - name: say_thank
@@ -94,7 +94,7 @@ actions:
     exclusive_flag: true
     allowed_repeats: 1
   - name: insist_shipmemt_stall
-    text: You have not responded. Could this item be delivered?
+    text: OK, are you saying you can ship me the gift card?
     exclusive_flag: true
     allowed_repeats: 1
   - name: say_ok
